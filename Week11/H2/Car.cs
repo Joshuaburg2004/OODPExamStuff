@@ -2,6 +2,7 @@ public class Car : IEquatable<Car>
 {
     public readonly string Make;
     public readonly string Model;
+    // new Array with Tire objects
     public readonly Tire[] Tires = new Tire[4];
     public Car(string make, string model, string tireBrand)
     {
@@ -16,12 +17,14 @@ public class Car : IEquatable<Car>
     public bool TryDrive()
     {
         bool canDrive = true;
+        // Check if all tires are fine
         foreach(Tire tire in Tires)
         {
             if (tire.Durability < 1) { canDrive = false; }
         }
         if (canDrive)
         {
+            // Could be the same for(Tire tire in tires) loop as before, just replace the content with tire.Durability -= 1;
             Tires[0].Durability -= 1;
             Tires[1].Durability -= 1;
             Tires[2].Durability -= 1;
@@ -30,9 +33,10 @@ public class Car : IEquatable<Car>
         }
         return false;
     }
-
+    
     public void ReplaceTire(Tire tire, int i)
     {
+        // if i is in the array, change that tire
         if(i < Tires.Length && i >= 0)
         {
             Tires[i] = tire;
@@ -41,6 +45,7 @@ public class Car : IEquatable<Car>
 
     public void ReplaceTire(string tireBrand, int i)
     {
+        // see above replaceTire, just with making a new Tire object in the method
         Tire tire = new Tire(tireBrand);
         if (i < Tires.Length && i >= 0)
         {
@@ -50,6 +55,9 @@ public class Car : IEquatable<Car>
 
     public string GetTireInfo()
     {
+        // Could be :
+        // string info = "";
+        // for(int i = 0; i < tires.Length; i++){info += $"Tire {i + 1}: Brand: {Tires[i].Brand}, Durability: {Tires[i].Durability}\n";
         string info1 = $"Tire 1: Brand: {Tires[0].Brand}, Durability: {Tires[0].Durability}\n";
         string info2 = $"Tire 2: Brand: {Tires[1].Brand}, Durability: {Tires[1].Durability}\n";
         string info3 = $"Tire 3: Brand: {Tires[2].Brand}, Durability: {Tires[2].Durability}\n";
@@ -57,7 +65,7 @@ public class Car : IEquatable<Car>
         string info = info1 + info2 + info3 + info4;
         return info;
     }
-
+    // usual IEquatable<Car> stuff
     public bool Equals(Car? car)
     {
         if(car is not null)
